@@ -1,0 +1,5 @@
+salt-formula-octavia (2017.6) xenial; urgency=medium
+
+  * Initial release
+
+ -- Elena Ezhova eezhova@mirantis.com  Mon, 05 Jun 2017 12:34:51 BST

@@ -1,0 +1,8 @@
+name: "octavia"
+version: "2017.6"
+source: "https://github.com/salt-formulas/salt-formula-octavia"
+dependencies:
+  - name: neutron
+    source: "https://github.com/salt-formulas/salt-formula-neutron"
+  - name: nova
+    source: "https://github.com/salt-formulas/salt-formula-nova"

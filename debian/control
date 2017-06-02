@@ -1,0 +1,15 @@
+Source: salt-formula-octavia
+Maintainer: Elena Ezhova eezhova@mirantis.com
+Section: admin
+Priority: optional
+Build-Depends: debhelper (>= 9), salt-master, python, python-yaml
+Standards-Version: 3.9.6
+Homepage: https://mirantis.com
+Vcs-Browser: https://github.com/salt-formulas/salt-formula-octavia
+Vcs-Git: https://github.com/salt-formulas/salt-formula-octavia.git
+
+Package: salt-formula-octavia
+Architecture: all
+Depends: ${misc:Depends}, salt-master, reclass
+Description: octavia salt formula
+ Install and configure octavia system.

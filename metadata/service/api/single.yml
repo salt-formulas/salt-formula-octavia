@@ -1,0 +1,41 @@
+applications:
+- octavia
+classes:
+- service.octavia.support
+parameters:
+  _param:
+    keystone_octavia_endpoint_type: internal
+  octavia:
+    api:
+      enabled: true
+      version: ${_param:octavia_version}
+      debug: true
+      bind:
+        address: ${_param:single_address}
+        port: 9876
+      database:
+        engine: mysql
+        host: ${_param:single_address}
+        port: 3306
+        name: octavia
+        user: octavia
+        password: ${_param:mysql_octavia_password}
+      identity:
+        engine: keystone
+        region: RegionOne
+        host: ${_param:single_address}
+        port: 35357
+        user: octavia
+        password: ${_param:keystone_octavia_password}
+        tenant: service
+        endpoint_type: ${_param:keystone_octavia_endpoint_type}
+      message_queue:
+        engine: rabbitmq
+        host: ${_param:single_address}
+        port: 5672
+        user: openstack
+        password: ${_param:rabbitmq_openstack_password}
+        virtual_host: '/openstack'
+      haproxy_amphora:
+        client_cert: '/etc/octavia/certs/client.pem'
+        server_ca: '/etc/octavia/certs/ca_01.pem'

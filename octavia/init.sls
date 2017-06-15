@@ -1,4 +1,7 @@
 include:
-{%- if pillar.octavia.server is defined %}
-- octavia.server
+{%- if pillar.octavia.api is defined %}
+- octavia.api
+{%- endif %}
+{%- if pillar.octavia.manager is defined %}
+- octavia.manager
 {%- endif %}

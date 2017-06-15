@@ -1,3 +1,0 @@
-octavia:
-  server:
-    enabled: true

@@ -1,8 +1,0 @@
-applications:
-- octavia
-classes:
-- service.octavia.support
-parameters:
-  octavia:
-    server:
-      enabled: true

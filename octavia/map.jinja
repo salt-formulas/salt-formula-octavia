@@ -1,10 +1,41 @@
+{% set api = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['octavia-common', 'octavia-api'],
+        'services': ['octavia-api'],
+        'notification': False,
+        'cors': {},
+        'audit': {
+          'enabled': false
+        }
+    },
+    'RedHat': {
+        'pkgs': ['octavia-common', 'octavia-api'],
+        'services': ['octavia-api'],
+        'notification': False,
+        'cors': {},
+        'audit': {
+          'enabled': false
+        }
+    },
+}, merge=pillar.octavia.get('api', {})) %}
 
-{%- load_yaml as base_defaults %}
-
-Debian:
-  pkgs:
-  - octavia
-
-{%- endload %}
-
-{%- set server = salt['grains.filter_by'](base_defaults, merge=salt['pillar.get']('octavia:server')) %}
+{% set manager = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'services': ['octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'notification': False,
+        'cors': {},
+        'audit': {
+          'enabled': false
+        }
+    },
+    'RedHat': {
+        'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'services': ['octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'notification': False,
+        'cors': {},
+        'audit': {
+          'enabled': false
+        }
+    },
+}, merge=pillar.octavia.get('manager', {})) %}

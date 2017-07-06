@@ -31,7 +31,6 @@ octavia:
     controller_worker:
       amp_boot_network_list: '01d3edaa-422c-40b9-b265-425c981691e7'
       amp_flavor_id: '967972bb-ab54-4679-9f53-bf81d5e28154'
-      amp_image_owner_id: '68520e9f926441ddb37b7c744c4005b7'
       amp_image_tag: amphora
       amp_secgroup_list: '9fcd532e-5715-423a-8e3f-51abddbe7705'
       amp_ssh_key_name: octavia_ssh_key

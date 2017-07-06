@@ -1,17 +1,22 @@
 {%- from "octavia/map.jinja" import manager with context %}
 
 {%- if manager.enabled %}
+{%- set mine_data = salt['mine.get']('glance:client', 'glanceng.get_image_owner_id', 'pillar').values() %}
 
 octavia_manager_packages:
   pkg.installed:
   - names: {{ manager.pkgs }}
 
+{%- if mine_data %}
 /etc/octavia/octavia.conf:
   file.managed:
   - source: salt://octavia/files/{{ manager.version }}/octavia_manager.conf
   - template: jinja
   - require:
     - pkg: octavia_manager_packages
+  - context:
+    amp_image_owner_id: {{ mine_data|first }}
+{%- endif %}
 
 /etc/octavia/certificates/openssl.cnf:
   file.managed:
@@ -64,12 +69,14 @@ health_manager_port_add_rule:
     - proto: udp
     - save: True
 
+{%- if mine_data %}
 octavia_manager_services:
   service.running:
   - names: {{ manager.services }}
   - enable: true
   - watch:
     - file: /etc/octavia/octavia.conf
+{%- endif %}
 {%- endif %}
 
 {%- endif %}

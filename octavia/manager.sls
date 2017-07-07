@@ -19,13 +19,51 @@ octavia_manager_packages:
   - require:
     - pkg: octavia_manager_packages
 
-/etc/octavia/dhcp/dhclient.conf:
+{% set dhclient_conf_path = '/etc/octavia/dhcp/dhclient.conf' %}
+
+{{ dhclient_conf_path }}:
   file.managed:
   - source: salt://octavia/files/{{ manager.version }}/dhcp/dhclient.conf
   - require:
     - pkg: octavia_manager_packages
 
 {%- if not grains.get('noservices', False) %}
+
+health_manager_ovs_port:
+  cmd.run:
+  - name: "ovs-vsctl -- --may-exist add-port br-int o-hm0 -- set Interface
+  o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active
+  -- set Interface o-hm0 external-ids:attached-mac={{
+  manager.controller_worker.amp_hm_port_mac }} -- set Interface o-hm0
+  external-ids:iface-id={{ manager.controller_worker.amp_hm_port_id }} -- set
+  Interface o-hm0 external-ids:skip_cleanup=true"
+  - unless: ovs-vsctl show | grep o-hm0
+
+health_manager_port_set_mac:
+  cmd.run:
+  - name: "ip link set dev o-hm0 address {{
+  manager.controller_worker.amp_hm_port_mac }}"
+  - unless: "ip link show o-hm0 | grep {{
+  manager.controller_worker.amp_hm_port_mac }}"
+  - require:
+    - cmd: health_manager_ovs_port
+
+health_manager_port_dhclient:
+  cmd.run:
+  - name: dhclient -v o-hm0 -cf {{ dhclient_conf_path }}
+  - require:
+    - cmd: health_manager_port_set_mac
+
+health_manager_port_add_rule:
+  iptables.append:
+    - table: filter
+    - chain: INPUT
+    - jump: ACCEPT
+    - in-interface: o-hm0
+    - dport: 5555
+    - proto: udp
+    - save: True
+
 octavia_manager_services:
   service.running:
   - names: {{ manager.services }}

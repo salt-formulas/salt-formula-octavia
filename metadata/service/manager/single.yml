@@ -44,6 +44,8 @@ parameters:
         amp_image_tag: amphora
         amp_secgroup_list: ${_param:amp_secgroup_list}
         amp_ssh_key_name: octavia_ssh_key
+        amp_hm_port_id: ${_param:amp_hm_port_id}
+        amp_hm_port_mac: ${_param:amp_hm_port_mac}
         loadbalancer_topology: 'SINGLE'
       haproxy_amphora:
         client_cert: '/etc/octavia/certs/client.pem'

@@ -1,13 +1,16 @@
 {%- from "octavia/map.jinja" import manager with context %}
 
 {%- if manager.enabled %}
-{%- set mine_data = salt['mine.get']('glance:client', 'glanceng.get_image_owner_id', 'pillar').values() %}
+{%- set image_mine_data = salt['mine.get']('glance:client', 'glanceng.get_image_owner_id', 'pillar').values() %}
+{%- set network_mine_data = salt['mine.get']('neutron:client', 'list_octavia_networks', 'pillar').values() %}
+{%- set secgroup_mine_data = salt['mine.get']('neutron:client', 'list_octavia_mgmt_security_groups', 'pillar').values() %}
+{%- set port_mine_data = salt['mine.get']('neutron:client', 'list_octavia_hm_ports', 'pillar').values() %}
 
 octavia_manager_packages:
   pkg.installed:
   - names: {{ manager.pkgs }}
 
-{%- if mine_data %}
+{%- if image_mine_data and network_mine_data and secgroup_mine_data %}
 /etc/octavia/octavia.conf:
   file.managed:
   - source: salt://octavia/files/{{ manager.version }}/octavia_manager.conf
@@ -15,7 +18,9 @@ octavia_manager_packages:
   - require:
     - pkg: octavia_manager_packages
   - context:
-    amp_image_owner_id: {{ mine_data|first }}
+    amp_image_owner_id: {{ image_mine_data|first }}
+    amp_boot_network_list: {{ (network_mine_data|first)['networks'][0]['id'] }}
+    amp_secgroup_list: {{ (secgroup_mine_data|first)['lb-mgmt-sec-grp']['id'] }}
 {%- endif %}
 
 /etc/octavia/certificates/openssl.cnf:
@@ -33,23 +38,23 @@ octavia_manager_packages:
     - pkg: octavia_manager_packages
 
 {%- if not grains.get('noservices', False) %}
+{%- if image_mine_data and network_mine_data and secgroup_mine_data and port_mine_data %}
+
+{%- set amp_hm_port_mac = port_mine_data[0]['octavia-health-manager-listen-port']['mac_address'] %}
+{%- set amp_hm_port_id = port_mine_data[0]['octavia-health-manager-listen-port']['id'] %}
 
 health_manager_ovs_port:
   cmd.run:
   - name: "ovs-vsctl -- --may-exist add-port br-int o-hm0 -- set Interface
   o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active
-  -- set Interface o-hm0 external-ids:attached-mac={{
-  manager.controller_worker.amp_hm_port_mac }} -- set Interface o-hm0
-  external-ids:iface-id={{ manager.controller_worker.amp_hm_port_id }} -- set
-  Interface o-hm0 external-ids:skip_cleanup=true"
+  -- set Interface o-hm0 external-ids:attached-mac={{ amp_hm_port_mac }} -- set Interface o-hm0
+  external-ids:iface-id={{ amp_hm_port_id }} -- set Interface o-hm0 external-ids:skip_cleanup=true"
   - unless: ovs-vsctl show | grep o-hm0
 
 health_manager_port_set_mac:
   cmd.run:
-  - name: "ip link set dev o-hm0 address {{
-  manager.controller_worker.amp_hm_port_mac }}"
-  - unless: "ip link show o-hm0 | grep {{
-  manager.controller_worker.amp_hm_port_mac }}"
+  - name: "ip link set dev o-hm0 address {{ amp_hm_port_mac }}"
+  - unless: "ip link show o-hm0 | grep {{ amp_hm_port_mac }}"
   - require:
     - cmd: health_manager_ovs_port
 
@@ -69,7 +74,6 @@ health_manager_port_add_rule:
     - proto: udp
     - save: True
 
-{%- if mine_data %}
 octavia_manager_services:
   service.running:
   - names: {{ manager.services }}

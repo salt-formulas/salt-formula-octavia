@@ -21,7 +21,8 @@
 
 {% set manager = salt['grains.filter_by']({
     'Debian': {
-        'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping',
+                 'octavia-health-manager', 'iptables-persistent'],
         'services': ['octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
         'notification': False,
         'cors': {},
@@ -30,7 +31,8 @@
         }
     },
     'RedHat': {
-        'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping',
+                 'octavia-health-manager', 'iptables-persistent'],
         'services': ['octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
         'notification': False,
         'cors': {},

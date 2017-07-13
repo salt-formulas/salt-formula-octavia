@@ -29,13 +29,9 @@ octavia:
       ca_private_key: '/etc/octavia/certs/private/cakey.pem'
       ca_certificate: '/etc/octavia/certs/ca_01.pem'
     controller_worker:
-      amp_boot_network_list: '01d3edaa-422c-40b9-b265-425c981691e7'
       amp_flavor_id: '967972bb-ab54-4679-9f53-bf81d5e28154'
       amp_image_tag: amphora
-      amp_secgroup_list: '9fcd532e-5715-423a-8e3f-51abddbe7705'
       amp_ssh_key_name: octavia_ssh_key
-      amp_hm_port_id: a52a982d-876d-414e-b8d3-4a0ce8c060c6
-      amp_hm_port_mac: fa:16:3e:c4:bf:b2
       loadbalancer_topology: 'SINGLE'
     haproxy_amphora:
       client_cert: '/etc/octavia/certs/client.pem'

@@ -38,13 +38,9 @@ parameters:
         ca_private_key: '/etc/octavia/certs/private/cakey.pem'
         ca_certificate: '/etc/octavia/certs/ca_01.pem'
       controller_worker:
-        amp_boot_network_list: ${_param:amp_boot_network_list}
         amp_flavor_id: ${_param:amp_flavor_id}
         amp_image_tag: amphora
-        amp_secgroup_list: ${_param:amp_secgroup_list}
         amp_ssh_key_name: octavia_ssh_key
-        amp_hm_port_id: ${_param:amp_hm_port_id}
-        amp_hm_port_mac: ${_param:amp_hm_port_mac}
         loadbalancer_topology: 'SINGLE'
       haproxy_amphora:
         client_cert: '/etc/octavia/certs/client.pem'

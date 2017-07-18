@@ -52,9 +52,6 @@ Octavia API service pillar:
           user: openstack
           password: password
           virtual_host: '/openstack'
-        haproxy_amphora:
-          client_cert: '/etc/octavia/certs/client.pem'
-          server_ca: '/etc/octavia/certs/ca_01.pem'
 
 
 Octavia manager service pillar:
@@ -88,7 +85,6 @@ Octavia manager service pillar:
           password: password
           virtual_host: '/openstack'
         certificates:
-          ca_private_key_passphrase: foobar
           ca_private_key: '/etc/octavia/certs/private/cakey.pem'
           ca_certificate: '/etc/octavia/certs/ca_01.pem'
         controller_worker:
@@ -98,6 +94,8 @@ Octavia manager service pillar:
           loadbalancer_topology: 'SINGLE'
         haproxy_amphora:
           client_cert: '/etc/octavia/certs/client.pem'
+          client_cert_key: '/etc/octavia/certs/client.key'
+          client_cert_all: '/etc/octavia/certs/client_all.pem'
           server_ca: '/etc/octavia/certs/ca_01.pem'
         health_manager:
           bind_ip: 192.168.0.12

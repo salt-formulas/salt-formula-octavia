@@ -31,6 +31,3 @@ octavia:
       - host: 127.0.0.1
       - host: 127.0.1.1
       - host: 127.0.2.1
-    haproxy_amphora:
-        client_cert: '/etc/octavia/certs/client.pem'
-        server_ca: '/etc/octavia/certs/ca_01.pem'

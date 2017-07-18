@@ -27,6 +27,3 @@ octavia:
       user: openstack
       password: password
       virtual_host: '/openstack'
-    haproxy_amphora:
-        client_cert: '/etc/octavia/certs/client.pem'
-        server_ca: '/etc/octavia/certs/ca_01.pem'

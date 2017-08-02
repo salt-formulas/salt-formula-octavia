@@ -24,6 +24,9 @@
         'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping',
                  'octavia-health-manager', 'iptables-persistent'],
         'services': ['octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'ssh': {
+          'private_key_file': '/etc/octavia/.ssh/octavia_ssh_key',
+        },
         'notification': False,
         'cors': {},
         'audit': {
@@ -34,6 +37,9 @@
         'pkgs': ['octavia-common', 'octavia-worker', 'octavia-housekeeping',
                  'octavia-health-manager', 'iptables-persistent'],
         'services': ['octavia-worker', 'octavia-housekeeping', 'octavia-health-manager'],
+        'ssh': {
+          'private_key_file': '/etc/octavia/.ssh/octavia_ssh_key',
+        },
         'notification': False,
         'cors': {},
         'audit': {

@@ -1,6 +1,7 @@
 {%- from "octavia/map.jinja" import manager with context %}
 
 {%- if manager.enabled %}
+{%- set ssh_dir = salt['file.dirname'](manager.ssh.private_key_file) %}
 {%- set image_mine_data = salt['mine.get']('glance:client', 'glanceng.get_image_owner_id', 'pillar').values() %}
 {%- set network_mine_data = salt['mine.get']('neutron:client', 'list_octavia_networks', 'pillar').values() %}
 {%- set secgroup_mine_data = salt['mine.get']('neutron:client', 'list_octavia_mgmt_security_groups', 'pillar').values() %}
@@ -36,6 +37,24 @@ octavia_manager_packages:
   - source: salt://octavia/files/{{ manager.version }}/dhcp/dhclient.conf
   - require:
     - pkg: octavia_manager_packages
+
+octavia_ssh_dir:
+  file.directory:
+    - name: {{ ssh_dir }}
+    - user: {{ manager.ssh.user }}
+    - group: {{ manager.ssh.group }}
+    - makedirs: true
+
+octavia_ssh_private_key:
+  file.managed:
+    - name: {{ manager.ssh.private_key_file }}
+    - contents_pillar: octavia:manager:ssh:private_key
+    - user: {{ manager.ssh.user }}
+    - group: {{ manager.ssh.group }}
+    - mode: 600
+    - require:
+      - file: octavia_ssh_dir
+
 
 {%- if not grains.get('noservices', False) %}
 {%- if image_mine_data and network_mine_data and secgroup_mine_data and port_mine_data %}

@@ -1,0 +1,17 @@
+{%- from "octavia/map.jinja" import api, monitoring with context %}
+
+{%- if api.get('enabled', False) %}
+server:
+  alert:
+    OctaviaErrorLogsTooHigh:
+      {%- set log_threshold = monitoring.error_log_rate|float %}
+      if: >-
+        sum(rate(log_messages{service="octavia",level=~"error|emergency|fatal"}[5m])) without (level) > {{ log_threshold }}
+{%- raw %}
+      labels:
+        severity: warning
+        service: "{{ $labels.service }}"
+      annotations:
+        summary: 'Too many errors in {{ $labels.service }} logs'
+        description: 'The rate of errors in {{ $labels.service }} logs over the last 5 minutes is too high on node {{ $labels.host }} (current value={{ $value }}, threshold={%- endraw %}{{ log_threshold }}).'
+{%- endif %}

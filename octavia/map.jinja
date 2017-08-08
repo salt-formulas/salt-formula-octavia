@@ -47,3 +47,9 @@
         }
     },
 }, merge=pillar.octavia.get('manager', {})) %}
+
+{% set monitoring = salt['grains.filter_by']({
+    'default': {
+        'error_log_rate': 0.2,
+    },
+}, merge=pillar.octavia.get('monitoring', {})) %}

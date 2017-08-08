@@ -4,8 +4,10 @@ parameters:
       collectd:
         enabled: false
       heka:
-        enabled: false
+        enabled: true
       sensu:
         enabled: false
       sphinx:
         enabled: false
+      prometheus:
+        enabled: true

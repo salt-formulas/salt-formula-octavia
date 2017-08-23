@@ -1,0 +1,7 @@
+dashboard:
+{%- if pillar.octavia.api is defined %}
+  octavia_prometheus:
+    datasource: prometheus
+    format: json
+    template: octavia/files/grafana_dashboards/octavia_prometheus.json
+{%- endif %}

@@ -9,6 +9,8 @@ parameters:
         enabled: false
       sphinx:
         enabled: false
+      grafana:
+        enabled: true
       prometheus:
         enabled: true
       telegraf:

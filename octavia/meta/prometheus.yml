@@ -3,6 +3,19 @@
 {%- if api.get('enabled', False) %}
 server:
   alert:
+{%- raw %}
+    OctaviaAPIDown:
+      if: >-
+        max(openstack_api_check_status{service="octavia-api"}) == 0
+      for: 2m
+      labels:
+        severity: down
+        service: "{{ $labels.service }}"
+      annotations:
+        summary: "Endpoint check for '{{ $labels.service}}' is down"
+        description: >-
+            Endpoint check for '{{ $labels.service}}' is down for 2 minutes
+{%- endraw %}
     OctaviaErrorLogsTooHigh:
       {%- set log_threshold = monitoring.error_log_rate|float %}
       if: >-

@@ -10,6 +10,6 @@ Vcs-Git: https://github.com/salt-formulas/salt-formula-octavia.git
 
 Package: salt-formula-octavia
 Architecture: all
-Depends: ${misc:Depends}, salt-master, reclass
+Depends: ${misc:Depends}
 Description: octavia salt formula
  Install and configure octavia system.

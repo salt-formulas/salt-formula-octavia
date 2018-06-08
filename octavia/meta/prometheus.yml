@@ -4,17 +4,17 @@
 server:
   alert:
 {%- raw %}
-    OctaviaAPIDown:
+    OctaviaApiDown:
       if: >-
         max(openstack_api_check_status{service="octavia-api"}) == 0
       for: 2m
       labels:
-        severity: down
-        service: "{{ $labels.service }}"
+        severity: critical
+        service: octavia
       annotations:
-        summary: "Endpoint check for '{{ $labels.service}}' is down"
+        summary: "Octavia API outage"
         description: >-
-            Endpoint check for '{{ $labels.service}}' is down for 2 minutes
+          Octavia API is not accessible for all available Octavia endpoints in the OpenStack service catalog for 2 minutes.
 {%- endraw %}
     OctaviaErrorLogsTooHigh:
       {%- set log_threshold = monitoring.error_log_rate|float %}
@@ -23,8 +23,8 @@ server:
 {%- raw %}
       labels:
         severity: warning
-        service: "{{ $labels.service }}"
+        service: octavia
       annotations:
-        summary: 'Too many errors in {{ $labels.service }} logs'
-        description: 'The rate of errors in {{ $labels.service }} logs over the last 5 minutes is too high on node {{ $labels.host }} (current value={{ $value }}, threshold={%- endraw %}{{ log_threshold }}).'
+        summary: "High number of errors in Octavia logs"
+        description: "The average per-second rate of errors in Octavia logs on the {{ $labels.host }} node is {{ $value }} (as measured over the last 5 minutes)."
 {%- endif %}

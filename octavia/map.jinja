@@ -53,3 +53,12 @@
         'error_log_rate': 0.2,
     },
 }, merge=pillar.octavia.get('monitoring', {})) %}
+
+{% set client = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['python-octaviaclient']
+    },
+    'RedHat': {
+        'pkgs': ['python-octaviaclient']
+    },
+}, merge=pillar.octavia.get('client', {})) %}

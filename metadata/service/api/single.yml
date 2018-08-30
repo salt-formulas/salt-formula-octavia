@@ -5,10 +5,14 @@ classes:
 parameters:
   _param:
     keystone_octavia_endpoint_type: internal
+    octavia_api_v1_enabled: True
+    octavia_api_v2_enabled: True
   octavia:
     api:
       enabled: true
       version: ${_param:octavia_version}
+      api_v1_enabled: ${_param:octavia_api_v1_enabled}
+      api_v2_enabled: ${_param:octavia_api_v2_enabled}
       debug: true
       bind:
         address: ${_param:single_address}

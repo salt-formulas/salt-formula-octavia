@@ -1,5 +1,5 @@
 Source: salt-formula-octavia
-Maintainer: nfv-dev nfv-dev@mirantis.com
+Maintainer: nfv-dev <nfv-dev@mirantis.com>
 Section: admin
 Priority: optional
 Build-Depends: debhelper (>= 9), salt-master, python, python-yaml

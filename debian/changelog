@@ -1,9 +1,3 @@
-salt-formula-octavia (2017.6-1) xenial; urgency=medium
-
-  * Add preinst, postinst, postrm procedures to process files/pike symlink
-
- -- devops <devops@mirantis.com>  Tue, 06 Feb 2018 15:40:55 +0200
-
 salt-formula-octavia (2017.6) xenial; urgency=medium
 
   * Initial release

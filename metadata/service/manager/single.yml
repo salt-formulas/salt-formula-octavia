@@ -5,6 +5,7 @@ classes:
 parameters:
   _param:
     keystone_octavia_endpoint_type: internal
+    octavia_loadbalancer_topology: 'SINGLE'
   octavia:
     manager:
       enabled: true
@@ -40,7 +41,7 @@ parameters:
         amp_flavor_id: ${_param:amp_flavor_id}
         amp_image_tag: amphora
         amp_ssh_key_name: octavia_ssh_key
-        loadbalancer_topology: 'SINGLE'
+        loadbalancer_topology: ${_param:octavia_loadbalancer_topology}
       haproxy_amphora:
         client_cert: '/etc/octavia/certs/client.pem'
         client_cert_key: '/etc/octavia/certs/client.key'

@@ -35,8 +35,8 @@ parameters:
         password: ${_param:rabbitmq_openstack_password}
         virtual_host: '/openstack'
       certificates:
-        ca_private_key: '/etc/octavia/certs/private/cakey.pem'
-        ca_certificate: '/etc/octavia/certs/ca_01.pem'
+        ca_private_key: '/etc/pki/ca/octavia_ca/ca.key'
+        ca_certificate: '/etc/pki/ca/octavia_ca/ca.crt'
       controller_worker:
         amp_flavor_id: ${_param:amp_flavor_id}
         amp_image_tag: amphora

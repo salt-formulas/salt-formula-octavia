@@ -12,7 +12,7 @@ octavia_manager_packages:
   - names: {{ manager.pkgs }}
 
 {%- if image_mine_data and network_mine_data and secgroup_mine_data %}
-/etc/octavia/octavia.conf:
+/etc/octavia/octavia_manager.conf:
   file.managed:
   - source: salt://octavia/files/{{ manager.version }}/octavia_manager.conf
   - template: jinja
@@ -98,7 +98,7 @@ octavia_manager_services:
   - names: {{ manager.services }}
   - enable: true
   - watch:
-    - file: /etc/octavia/octavia.conf
+    - file: /etc/octavia/octavia_manager.conf
 {%- endif %}
 {%- endif %}
 

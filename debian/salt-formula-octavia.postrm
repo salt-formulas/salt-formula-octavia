@@ -3,7 +3,7 @@
 set -e
 
 dpkg-maintscript-helper symlink_to_dir \
-        /usr/share/salt-formulas/env/octavia/files/pike /usr/share/salt-formulas/env/octavia/files/ocata salt-formula-octavia -- "$@"
+        /usr/share/salt-formulas/env/octavia/files/queens /usr/share/salt-formulas/env/octavia/files/pike /usr/share/salt-formulas/env/octavia/files/ocata salt-formula-octavia -- "$@"
 
 #DEBHELPER#
 

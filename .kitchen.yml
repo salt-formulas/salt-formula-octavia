@@ -30,7 +30,7 @@ provisioner:
           - linux_repo_openstack
           - octavia
   pillars-from-files:
-    linux_repo_openstack.sls: tests/pillar/repo_openstack.sls
+    linux_repo_openstack.sls: tests/pillar/repo_openstack_<%= ENV['OS_VERSION'] || 'ocata' %>.sls
 
 verifier:
   name: inspec
@@ -47,15 +47,30 @@ suites:
     provisioner:
       pillars-from-files:
         octavia.sls: tests/pillar/api_single.sls
+      pillars:
+        release.sls:
+          octavia:
+            api:
+              version: <%= ENV['OS_VERSION'] || 'ocata' %>
 
   - name: api_cluster
     provisioner:
       pillars-from-files:
         octavia.sls: tests/pillar/api_cluster.sls
+      pillars:
+        release.sls:
+          octavia:
+            api:
+              version: <%= ENV['OS_VERSION'] || 'ocata' %>
 
   - name: manager_single
     provisioner:
       pillars-from-files:
         octavia.sls: tests/pillar/manager_single.sls
+      pillars:
+        release.sls:
+          octavia:
+            manager:
+              version: <%= ENV['OS_VERSION'] || 'ocata' %>
 
 # vim: ft=yaml sw=2 ts=2 sts=2 tw=125

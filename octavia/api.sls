@@ -2,9 +2,14 @@
 
 {%- if api.enabled %}
 
+include:
+  - octavia.db.offline_sync
+
 octavia_api_packages:
   pkg.installed:
   - names: {{ api.pkgs }}
+  - require_in:
+    - sls: octavia.db.offline_sync
 
 
 /etc/octavia/octavia_api.conf:
@@ -13,6 +18,8 @@ octavia_api_packages:
   - template: jinja
   - require:
     - pkg: octavia_api_packages
+  - require_in:
+    - sls: octavia.db.offline_sync
 
 {%- if pillar.octavia.manager is not defined %}
 /etc/octavia/certificates/openssl.cnf:
@@ -28,13 +35,6 @@ octavia_api_packages:
     - pkg: octavia_api_packages
 {%- endif %}
 
-{%- if not grains.get('noservices', False) %}
-octavia_db_manage:
-  cmd.run:
-  - name: octavia-db-manage --config-file /etc/octavia/octavia_api.conf upgrade head
-  - require:
-    - file: /etc/octavia/octavia_api.conf
-{%- endif %}
 
 {%- if not grains.get('noservices', False) %}
 octavia_api_services:
@@ -44,7 +44,7 @@ octavia_api_services:
   - watch:
     - file: /etc/octavia/octavia_api.conf
   - require:
-    - cmd: octavia_db_manage
+    - sls: octavia.db.offline_sync
 {%- endif %}
 
 {%- endif %}

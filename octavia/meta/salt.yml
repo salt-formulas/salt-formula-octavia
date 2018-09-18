@@ -1,0 +1,5 @@
+orchestration:
+  upgrade:
+    applications:
+      octavia:
+        priority: 1180

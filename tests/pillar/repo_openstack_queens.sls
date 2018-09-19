@@ -3,6 +3,6 @@ linux:
     enabled: true
     repo:
       mirantis_openstack:
-        source: "deb http://mirror.mirantis.com/stable/openstack-queens/xenial/ xenial main"
+        source: "deb https://mirror.mirantis.com/nightly/openstack-queens/xenial/ xenial main"
         architectures: amd64
-        key_url: "http://mirror.mirantis.com/nightly/openstack-queens/xenial/archive-queens.key"
+        key_url: "https://mirror.mirantis.com/nightly/openstack-queens/xenial/archive-queens.key"

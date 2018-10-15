@@ -27,4 +27,5 @@ server:
       annotations:
         summary: "High number of errors in Octavia logs"
         description: "The average per-second rate of errors in Octavia logs on the {{ $labels.host }} node is {{ $value }} (as measured over the last 5 minutes)."
+{%- endraw %}
 {%- endif %}
